@@ -1,0 +1,255 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+}
+
+/* ============================================
+   LIGHT MODE — Soft warm-white Obsidian variant
+   ============================================ */
+:root {
+  --background: hsl(240 5% 96%);
+  --foreground: hsl(240 10% 6%);
+  --card: hsl(0 0% 100%);
+  --card-foreground: hsl(240 10% 6%);
+  --popover: hsl(0 0% 100%);
+  --popover-foreground: hsl(240 10% 6%);
+  --primary: hsl(262 83% 58%);
+  --primary-foreground: hsl(0 0% 100%);
+  --secondary: hsl(240 5% 90%);
+  --secondary-foreground: hsl(240 10% 20%);
+  --muted: hsl(240 5% 92%);
+  --muted-foreground: hsl(240 5% 48%);
+  --accent: hsl(262 83% 58%);
+  --accent-foreground: hsl(0 0% 100%);
+  --border: hsl(240 5% 84%);
+  --input: hsl(240 5% 88%);
+  --ring: hsl(262 83% 58%);
+  --radius: 0.75rem;
+
+  /* Obsidian custom tokens */
+  --surface-1: hsl(240 5% 98%);
+  --surface-2: hsl(240 5% 94%);
+  --surface-3: hsl(240 5% 88%);
+  --glow-primary: rgba(124, 58, 237, 0.15);
+  --glow-strong: rgba(124, 58, 237, 0.25);
+}
+
+/* ============================================
+   DARK MODE — Pure Obsidian Black
+   ============================================ */
+.dark {
+  --background: hsl(0 0% 3%);          /* #080808 pure black */
+  --foreground: hsl(240 5% 88%);        /* warm off-white */
+  --card: hsl(0 0% 5%);                 /* #0d0d0d card surface */
+  --card-foreground: hsl(240 5% 88%);
+  --popover: hsl(0 0% 5%);
+  --popover-foreground: hsl(240 5% 88%);
+  --primary: hsl(262 83% 65%);          /* Obsidian violet #8b5cf6 */
+  --primary-foreground: hsl(0 0% 100%);
+  --secondary: hsl(240 4% 9%);          /* #161616 */
+  --secondary-foreground: hsl(240 5% 70%);
+  --muted: hsl(240 4% 8%);              /* #141414 */
+  --muted-foreground: hsl(240 5% 45%);  /* muted zinc */
+  --accent: hsl(262 83% 65%);
+  --accent-foreground: hsl(0 0% 100%);
+  --border: hsl(240 4% 12%);            /* #1e1e1e subtle borders */
+  --input: hsl(240 4% 10%);
+  --ring: hsl(262 83% 65%);
+
+  /* Obsidian custom tokens */
+  --surface-1: hsl(0 0% 6%);           /* #0f0f0f */
+  --surface-2: hsl(0 0% 9%);           /* #171717 */
+  --surface-3: hsl(0 0% 12%);          /* #1f1f1f */
+  --glow-primary: rgba(139, 92, 246, 0.12);
+  --glow-strong: rgba(139, 92, 246, 0.22);
+}
+
+/* ============================================
+   GLOBAL RESETS & BASE
+   ============================================ */
+*, *::before, *::after {
+  border-color: var(--border);
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  overflow-x: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* ============================================
+   OBSIDIAN GLASS PANEL SYSTEM
+   ============================================ */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.dark .glass-panel {
+  background: rgba(13, 13, 13, 0.82);
+  backdrop-filter: blur(20px) saturate(120%);
+  -webkit-backdrop-filter: blur(20px) saturate(120%);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(230, 230, 240, 0.7);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 24px rgba(0, 0, 0, 0.03);
+}
+
+.dark .glass-card {
+  background: rgba(13, 13, 13, 0.90);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5), 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+/* Obsidian violet glow on hover cards */
+.dark .glow-hover {
+  transition: all 0.25s ease;
+}
+
+.dark .glow-hover:hover {
+  border-color: rgba(139, 92, 246, 0.25) !important;
+  box-shadow: 0 0 0 1px rgba(139, 92, 246, 0.12), 0 8px 32px rgba(139, 92, 246, 0.08) !important;
+}
+
+/* ============================================
+   OBSIDIAN NOISE TEXTURE OVERLAY
+   ============================================ */
+.dark body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.015'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.4;
+}
+
+/* ============================================
+   ANIMATIONS
+   ============================================ */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(16px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+@keyframes slideInLeft {
+  from { transform: translateX(-12px); opacity: 0; }
+  to   { transform: translateX(0);     opacity: 1; }
+}
+
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 0 0 var(--glow-primary); }
+  50%       { box-shadow: 0 0 0 6px var(--glow-primary); }
+}
+
+.animate-fade-in  { animation: fadeIn  0.35s ease forwards; }
+.animate-slide-up { animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.animate-slide-in { animation: slideInLeft 0.35s ease forwards; }
+
+/* ============================================
+   OBSIDIAN SCROLLBARS
+   ============================================ */
+::-webkit-scrollbar       { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--muted-foreground);
+}
+
+/* ============================================
+   OBSIDIAN SELECTION HIGHLIGHT
+   ============================================ */
+::selection {
+  background: rgba(139, 92, 246, 0.28);
+  color: inherit;
+}
+
+/* ============================================
+   UTILITY CLASSES
+   ============================================ */
+.border-obsidian   { border-color: var(--border); }
+.text-muted        { color: var(--muted-foreground); }
+.bg-surface        { background-color: var(--surface-1); }
+.bg-surface-2      { background-color: var(--surface-2); }
+
+/* Badge variants for Obsidian theme */
+.badge-violet {
+  background: rgba(139, 92, 246, 0.12);
+  color: hsl(262 83% 72%);
+  border: 1px solid rgba(139, 92, 246, 0.2);
+}
+
+.badge-emerald {
+  background: rgba(16, 185, 129, 0.10);
+  color: hsl(160 60% 55%);
+  border: 1px solid rgba(16, 185, 129, 0.18);
+}
+
+.badge-amber {
+  background: rgba(245, 158, 11, 0.10);
+  color: hsl(38 90% 58%);
+  border: 1px solid rgba(245, 158, 11, 0.18);
+}
+
+.badge-rose {
+  background: rgba(244, 63, 94, 0.10);
+  color: hsl(350 80% 65%);
+  border: 1px solid rgba(244, 63, 94, 0.18);
+}
+
+.badge-blue {
+  background: rgba(59, 130, 246, 0.10);
+  color: hsl(213 85% 65%);
+  border: 1px solid rgba(59, 130, 246, 0.18);
+}
+
+/* Obsidian divider */
+.divider {
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--border), transparent);
+}
