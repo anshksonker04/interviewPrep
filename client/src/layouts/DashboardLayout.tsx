@@ -4,7 +4,7 @@ import { useAuthStore } from '../store/authStore';
 import { useTheme } from '../context/ThemeContext';
 import {
   LayoutDashboard, BookOpen, Bookmark, BarChart3,
-  User as UserIcon, ShieldAlert, LogOut, Sun, Moon, Menu, X, Zap
+  User as UserIcon, ShieldAlert, LogOut, Sun, Moon, Menu, X, Zap, Sparkles
 } from 'lucide-react';
 import { cn } from '../lib/utils';
 
@@ -20,6 +20,7 @@ export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ child
   const navLinks = [
     { label: 'Dashboard',        path: '/',          icon: <LayoutDashboard className="w-4 h-4" /> },
     { label: 'Practice Quizzes', path: '/quizzes',   icon: <BookOpen className="w-4 h-4" /> },
+    { label: 'AI Syllabus Quiz', path: '/syllabus-quiz', icon: <Sparkles className="w-4 h-4" /> },
     { label: 'Bookmarks',        path: '/bookmarks', icon: <Bookmark className="w-4 h-4" /> },
     { label: 'Analytics',        path: '/analytics', icon: <BarChart3 className="w-4 h-4" /> },
     { label: 'Profile',          path: '/profile',   icon: <UserIcon className="w-4 h-4" /> },

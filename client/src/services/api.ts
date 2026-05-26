@@ -87,6 +87,24 @@ export const quizService = {
     const response = await API.delete<{ message: string }>(`/quizzes/${id}`);
     return response.data;
   },
+  generateFromSyllabus: async (
+    payload: FormData | { syllabus_text: string; num_questions: number; api_key?: string },
+    customApiKey?: string
+  ) => {
+    const headers: Record<string, string> = {};
+    if (customApiKey) {
+      headers['X-Gemini-Key'] = customApiKey;
+    }
+    
+    if (payload instanceof FormData) {
+      headers['Content-Type'] = 'multipart/form-data';
+      const response = await API.post<{ message: string; quiz_id: number }>('/quizzes/generate-from-syllabus', payload, { headers });
+      return response.data;
+    } else {
+      const response = await API.post<{ message: string; quiz_id: number }>('/quizzes/generate-from-syllabus', payload, { headers });
+      return response.data;
+    }
+  },
 };
 
 export const questionService = {

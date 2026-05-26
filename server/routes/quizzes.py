@@ -1,5 +1,11 @@
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required
+import os
+import requests
+import json
+import io
+import pypdf
+import docx
 from server.models import db, Quiz, Question
 from server.middleware.auth import admin_required
 
@@ -115,3 +121,239 @@ def delete_quiz(quiz_id):
     except Exception as e:
         db.session.rollback()
         return jsonify({'error': f'Failed to delete quiz: {str(e)}'}), 500
+
+@quizzes_bp.route('/generate-from-syllabus', methods=['POST'])
+@jwt_required()
+def generate_from_syllabus():
+    try:
+        # Determine syllabus text
+        syllabus_text = ''
+        
+        # Check if file was uploaded
+        if 'file' in request.files:
+            file = request.files['file']
+            if file and file.filename != '':
+                filename = file.filename.lower()
+                file_bytes = file.read()
+                
+                if filename.endswith('.pdf'):
+                    try:
+                        pdf_file = io.BytesIO(file_bytes)
+                        reader = pypdf.PdfReader(pdf_file)
+                        text_content = []
+                        for page in reader.pages:
+                            page_text = page.extract_text()
+                            if page_text:
+                                text_content.append(page_text)
+                        syllabus_text = "\n".join(text_content)
+                    except Exception as pdf_err:
+                        return jsonify({'error': f'Failed to parse PDF file: {str(pdf_err)}'}), 400
+                elif filename.endswith('.docx'):
+                    try:
+                        docx_file = io.BytesIO(file_bytes)
+                        doc = docx.Document(docx_file)
+                        text_content = []
+                        for paragraph in doc.paragraphs:
+                            if paragraph.text:
+                                text_content.append(paragraph.text)
+                        for table in doc.tables:
+                            for row in table.rows:
+                                row_text = [cell.text for cell in row.cells if cell.text]
+                                if row_text:
+                                    text_content.append(" | ".join(row_text))
+                        syllabus_text = "\n".join(text_content)
+                    except Exception as docx_err:
+                        return jsonify({'error': f'Failed to parse Word Document: {str(docx_err)}'}), 400
+                else:
+                    # Fallback to plain text decoding
+                    syllabus_text = file_bytes.decode('utf-8', errors='ignore')
+        
+        # If syllabus text is still empty, look at form/json body
+        if not syllabus_text:
+            if request.is_json:
+                data = request.get_json() or {}
+                syllabus_text = data.get('syllabus_text', '')
+            else:
+                syllabus_text = request.form.get('syllabus_text', '')
+        
+        syllabus_text = syllabus_text.strip()
+        if not syllabus_text:
+            return jsonify({'error': 'Syllabus content or topic list is required. Please paste or upload a file.'}), 400
+
+        # Determine total question count
+        num_questions = 10
+        if request.is_json:
+            data = request.get_json() or {}
+            num_questions = data.get('num_questions', 10)
+        else:
+            try:
+                num_questions = int(request.form.get('num_questions', 10))
+            except ValueError:
+                num_questions = 10
+
+        # Clamp between 5 and 30 questions
+        num_questions = max(5, min(30, num_questions))
+
+        # Calculate exact counts for easy/medium/hard (40-40-20 rule)
+        count_easy = round(num_questions * 0.40)
+        count_medium = round(num_questions * 0.40)
+        count_hard = num_questions - count_easy - count_medium
+
+        # API Key lookup
+        # 1. Custom header X-Gemini-Key
+        api_key = request.headers.get('X-Gemini-Key')
+        if not api_key:
+            if request.is_json:
+                data = request.get_json() or {}
+                api_key = data.get('api_key', '')
+            else:
+                api_key = request.form.get('api_key', '')
+        
+        # 2. Server environment
+        if not api_key:
+            api_key = os.environ.get('GEMINI_API_KEY')
+
+        if not api_key:
+            return jsonify({'error': 'Gemini API Key is missing. Please configure GEMINI_API_KEY in server/.env or input your key in the web interface.'}), 400
+
+        # Prepare Gemma 4 payload
+        url = f"https://generativelanguage.googleapis.com/v1beta/models/gemma-4-31b-it:generateContent?key={api_key}"
+        
+        prompt = f"""
+You are an expert technical interviewer and placement exam compiler.
+Based on the following syllabus or list of topics, generate a highly personalized technical multiple-choice quiz:
+
+---
+{syllabus_text}
+---
+
+The quiz MUST contain exactly {num_questions} questions, broken down by difficulty as follows:
+- Exactly {count_easy} Easy questions
+- Exactly {count_medium} Medium questions
+- Exactly {count_hard} Hard questions
+
+Return the response ONLY as a JSON object, following this strict JSON schema:
+{{
+  "title": "A short, engaging title for the quiz, e.g., 'DBMS & SQL Mastery'",
+  "topic": "A short topic label (max 15 chars, e.g. SQL, DBMS, OS, Java, C++)",
+  "questions": [
+    {{
+      "question": "The question text",
+      "difficulty": "Easy", // Must match the designated difficulty ("Easy", "Medium", or "Hard")
+      "option_a": "Option A text",
+      "option_b": "Option B text",
+      "option_c": "Option C text",
+      "option_d": "Option D text",
+      "correct_answer": "A", // Must be "A", "B", "C", or "D"
+      "explanation": "Detailed explanation of why the correct answer is right"
+    }}
+  ]
+}}
+
+Ensure all JSON rules are followed. Do not wrap the JSON output in markdown formatting or anything else, return pure JSON text. If you must use quotes in fields, escape them properly.
+"""
+
+        payload = {
+            "contents": [{
+                "parts": [{
+                    "text": prompt
+                }]
+            }],
+            "generationConfig": {
+                "responseMimeType": "application/json"
+            }
+        }
+
+        # Make HTTP Request
+        print("[API] Attempting connection to Google Generative Language API (Gemma 4)...")
+        try:
+            response = requests.post(url, json=payload, timeout=45)
+        except requests.exceptions.ConnectionError as conn_err:
+            print(f"[API CONNECTION FAILED] Network connection could not be established: {str(conn_err)}")
+            return jsonify({
+                'error': 'Network connection failed: Unable to connect to Google API. Please ensure your machine is connected to the internet and DNS resolution is functioning properly.'
+            }), 503
+        except requests.exceptions.Timeout as timeout_err:
+            print(f"[API CONNECTION TIMEOUT] The request to Google API timed out: {str(timeout_err)}")
+            return jsonify({
+                'error': 'API request timed out. Please check your network speed or try again.'
+            }), 504
+        except requests.exceptions.RequestException as req_err:
+            print(f"[API ERROR] Request exception occurred: {str(req_err)}")
+            return jsonify({
+                'error': f'Failed to communicate with Google API: {str(req_err)}'
+            }), 502
+
+        if response.status_code != 200:
+            print(f"[API HTTP ERROR] Connected, but API returned status {response.status_code}: {response.text}")
+            return jsonify({'error': f'Gemini API request failed with status {response.status_code}: {response.text}'}), response.status_code
+
+        print("[API CONNECTION SUCCESSFUL] Received valid response from Gemma 4 API.")
+
+        res_data = response.json()
+        try:
+            raw_text = res_data['candidates'][0]['content']['parts'][0]['text'].strip()
+        except (KeyError, IndexError):
+            return jsonify({'error': 'Failed to extract text from Gemini response payload.'}), 502
+
+        # Clean markdown formatting if present
+        if raw_text.startswith('```'):
+            if raw_text.startswith('```json'):
+                raw_text = raw_text[7:]
+            else:
+                raw_text = raw_text[3:]
+            if raw_text.endswith('```'):
+                raw_text = raw_text[:-3]
+            raw_text = raw_text.strip()
+
+        try:
+            quiz_json = json.loads(raw_text)
+        except json.JSONDecodeError as e:
+            return jsonify({'error': f'Failed to parse generated quiz JSON. Clean response was: {raw_text}. Error: {str(e)}'}), 502
+
+        # Insert new Quiz
+        quiz_title = quiz_json.get('title', 'Personalized Syllabus Quiz').strip()
+        quiz_topic = quiz_json.get('topic', 'Syllabus').strip()
+        quiz_difficulty = 'Personalized'
+
+        new_quiz = Quiz(title=quiz_title, topic=quiz_topic, difficulty=quiz_difficulty)
+        db.session.add(new_quiz)
+        db.session.flush()  # Acquire ID before inserting questions
+
+        questions_list = quiz_json.get('questions', [])
+        if not questions_list:
+            return jsonify({'error': 'AI generated an empty set of questions.'}), 502
+
+        created_questions = []
+        for idx, q_data in enumerate(questions_list):
+            correct = q_data.get('correct_answer', 'A').strip().upper()
+            if correct not in ['A', 'B', 'C', 'D']:
+                correct = 'A'
+
+            new_q = Question(
+                quiz_id=new_quiz.id,
+                question=q_data.get('question', f'Question {idx + 1}').strip(),
+                option_a=q_data.get('option_a', 'Option A').strip(),
+                option_b=q_data.get('option_b', 'Option B').strip(),
+                option_c=q_data.get('option_c', 'Option C').strip(),
+                option_d=q_data.get('option_d', 'Option D').strip(),
+                correct_answer=correct,
+                explanation=q_data.get('explanation', '').strip()
+            )
+            db.session.add(new_q)
+            created_questions.append(new_q)
+
+        db.session.commit()
+
+        return jsonify({
+            'message': 'Quiz generated successfully via AI!',
+            'quiz_id': new_quiz.id,
+            'title': new_quiz.title,
+            'topic': new_quiz.topic,
+            'question_count': len(created_questions)
+        }), 201
+
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'error': f'Failed to generate syllabus quiz: {str(e)}'}), 500
+

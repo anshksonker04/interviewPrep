@@ -16,6 +16,7 @@ import { Bookmarks } from './pages/Bookmarks';
 import { Analytics } from './pages/Analytics';
 import { Profile } from './pages/Profile';
 import { AdminDashboard } from './pages/AdminDashboard';
+import { SyllabusQuiz } from './pages/SyllabusQuiz';
 
 export const App: React.FC = () => {
   return (
@@ -40,6 +41,14 @@ export const App: React.FC = () => {
             element={
               <ProtectedRoute>
                 <Quizzes />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/syllabus-quiz" 
+            element={
+              <ProtectedRoute>
+                <SyllabusQuiz />
               </ProtectedRoute>
             } 
           />
