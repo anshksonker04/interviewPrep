@@ -178,7 +178,7 @@ export const SyllabusQuiz: React.FC = () => {
               
               <div className="text-center space-y-1 max-w-sm">
                 <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-200">Assembling Personalized Quiz</h3>
-                <p className="text-xs text-zinc-500">Gemma 4 is analyzing your syllabus topics and generating questions...</p>
+                <p className="text-xs text-zinc-500">Gemini 2.5 Flash is analyzing your syllabus topics and generating questions...</p>
               </div>
 
               {/* Progress Steps */}

@@ -254,8 +254,8 @@ def generate_from_syllabus():
         if not api_key:
             return jsonify({'error': 'Gemini API Key is missing. Please configure GEMINI_API_KEY in server/.env or input your key in the web interface.'}), 400
 
-        # Prepare Gemma 4 payload
-        url = f"https://generativelanguage.googleapis.com/v1beta/models/gemma-4-31b-it:generateContent?key={api_key}"
+        # Prepare Gemini 2.5 Flash payload
+        url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={api_key}"
         
         schema = {
             "type": "object",
@@ -346,7 +346,7 @@ Start your response directly with the opening brace '{{' and end with the closin
         }
 
         # Make HTTP Request
-        print("[API] Attempting connection to Google Generative Language API (Gemma 4)...")
+        print("[API] Attempting connection to Google Generative Language API (Gemini 2.5 Flash)...")
         try:
             response = requests.post(url, json=payload, timeout=120)
         except requests.exceptions.ConnectionError as conn_err:
@@ -369,7 +369,7 @@ Start your response directly with the opening brace '{{' and end with the closin
             print(f"[API HTTP ERROR] Connected, but API returned status {response.status_code}: {response.text}")
             return jsonify({'error': f'Gemini API request failed with status {response.status_code}: {response.text}'}), response.status_code
 
-        print("[API CONNECTION SUCCESSFUL] Received valid response from Gemma 4 API.")
+        print("[API CONNECTION SUCCESSFUL] Received valid response from Gemini 2.5 Flash API.")
 
         res_data = response.json()
         try:
