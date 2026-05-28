@@ -257,6 +257,64 @@ def generate_from_syllabus():
         # Prepare Gemma 4 payload
         url = f"https://generativelanguage.googleapis.com/v1beta/models/gemma-4-31b-it:generateContent?key={api_key}"
         
+        schema = {
+            "type": "object",
+            "properties": {
+                "title": {
+                    "type": "string",
+                    "description": "A short, engaging title for the quiz, e.g., 'DBMS & SQL Mastery'"
+                },
+                "topic": {
+                    "type": "string",
+                    "description": "A short topic label (max 15 chars, e.g. SQL, DBMS, OS, Java, C++)"
+                },
+                "questions": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "question": {
+                                "type": "string",
+                                "description": "The question text"
+                            },
+                            "difficulty": {
+                                "type": "string",
+                                "enum": ["Easy", "Medium", "Hard"],
+                                "description": "The designated difficulty level"
+                            },
+                            "option_a": {
+                                "type": "string",
+                                "description": "Option A text"
+                            },
+                            "option_b": {
+                                "type": "string",
+                                "description": "Option B text"
+                            },
+                            "option_c": {
+                                "type": "string",
+                                "description": "Option C text"
+                            },
+                            "option_d": {
+                                "type": "string",
+                                "description": "Option D text"
+                            },
+                            "correct_answer": {
+                                "type": "string",
+                                "enum": ["A", "B", "C", "D"],
+                                "description": "The correct option letter"
+                            },
+                            "explanation": {
+                                "type": "string",
+                                "description": "Detailed explanation of why the correct answer is right"
+                            }
+                        },
+                        "required": ["question", "difficulty", "option_a", "option_b", "option_c", "option_d", "correct_answer", "explanation"]
+                    }
+                }
+            },
+            "required": ["title", "topic", "questions"]
+        }
+
         prompt = f"""
 You are an expert technical interviewer and placement exam compiler.
 Based on the following syllabus or list of topics, generate a highly personalized technical multiple-choice quiz:
@@ -270,25 +328,9 @@ The quiz MUST contain exactly {num_questions} questions, broken down by difficul
 - Exactly {count_medium} Medium questions
 - Exactly {count_hard} Hard questions
 
-Return the response ONLY as a JSON object, following this strict JSON schema:
-{{
-  "title": "A short, engaging title for the quiz, e.g., 'DBMS & SQL Mastery'",
-  "topic": "A short topic label (max 15 chars, e.g. SQL, DBMS, OS, Java, C++)",
-  "questions": [
-    {{
-      "question": "The question text",
-      "difficulty": "Easy", // Must match the designated difficulty ("Easy", "Medium", or "Hard")
-      "option_a": "Option A text",
-      "option_b": "Option B text",
-      "option_c": "Option C text",
-      "option_d": "Option D text",
-      "correct_answer": "A", // Must be "A", "B", "C", or "D"
-      "explanation": "Detailed explanation of why the correct answer is right"
-    }}
-  ]
-}}
-
-Ensure all JSON rules are followed. Do not wrap the JSON output in markdown formatting or anything else, return pure JSON text. If you must use quotes in fields, escape them properly.
+You must strictly output ONLY the raw JSON object conforming to the response schema. 
+Do not include any conversational introductions, conclusions, planning steps, bullet points, checklists, or reasoning logs before or after the JSON.
+Start your response directly with the opening brace '{{' and end with the closing brace '}}'.
 """
 
         payload = {
@@ -298,7 +340,8 @@ Ensure all JSON rules are followed. Do not wrap the JSON output in markdown form
                 }]
             }],
             "generationConfig": {
-                "responseMimeType": "application/json"
+                "responseMimeType": "application/json",
+                "responseSchema": schema
             }
         }
 
