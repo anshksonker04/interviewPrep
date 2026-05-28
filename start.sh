@@ -56,7 +56,7 @@ fuser -k 5000/tcp 2>/dev/null || kill -9 $(lsof -t -i:5000) 2>/dev/null || true
 fuser -k 5173/tcp 2>/dev/null || kill -9 $(lsof -t -i:5173) 2>/dev/null || true
 
 # Step 1: Check and Seed SQLite Database if missing
-if [ ! -f "server/interview_prep.db" ]; then
+if [ ! -f "instance/interview_prep.db" ]; then
   echo -e "${YELLOW}SQLite database file not found. Seeding initial placement data...${NC}"
   # Run seeding, saving log and prefixing it as db: in purple
   PYTHONPATH=. python3 server/database/seed.py 2>&1 | tee db.log.txt | sed -u "s/^/${PURPLE}db: ${NC}/"

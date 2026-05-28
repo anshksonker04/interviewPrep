@@ -27,6 +27,7 @@ interface QuizState {
   prevQuestion: () => void;
   submitQuiz: () => Promise<Attempt>;
   endQuizSession: () => void;
+  saveActiveProgress: () => Promise<void>;
   
   // Bookmarks
   fetchBookmarks: () => Promise<void>;
@@ -77,12 +78,28 @@ export const useQuizStore = create<QuizState>((set, get) => ({
       // Standard timer calculation: 3 minutes (180 seconds) per question
       const calculatedDuration = questionCount * 180;
 
+      // Check if progress exists in database for this user and this quiz
+      let resumedIndex = 0;
+      let resumedAnswers = {};
+      let resumedTime = calculatedDuration;
+      
+      try {
+        const progressRes = await quizService.getProgress(quizId);
+        if (progressRes.progress) {
+          resumedIndex = progressRes.progress.current_question_index;
+          resumedAnswers = progressRes.progress.answers || {};
+          resumedTime = progressRes.progress.time_remaining;
+        }
+      } catch (progressErr) {
+        console.error('Failed to load quiz progress, defaulting to fresh session:', progressErr);
+      }
+
       set({
         currentQuiz: data.quiz,
         isQuizActive: true,
-        currentQuestionIndex: 0,
-        answers: {},
-        timeRemaining: calculatedDuration,
+        currentQuestionIndex: resumedIndex,
+        answers: resumedAnswers,
+        timeRemaining: resumedTime,
         timeTaken: 0,
         isLoading: false
       });
@@ -98,6 +115,7 @@ export const useQuizStore = create<QuizState>((set, get) => ({
         [questionId]: option
       }
     }));
+    get().saveActiveProgress();
   },
 
   nextQuestion: () => {
@@ -105,6 +123,7 @@ export const useQuizStore = create<QuizState>((set, get) => ({
     if (!currentQuiz) return;
     if (currentQuestionIndex < currentQuiz.questions.length - 1) {
       set({ currentQuestionIndex: currentQuestionIndex + 1 });
+      get().saveActiveProgress();
     }
   },
 
@@ -112,6 +131,21 @@ export const useQuizStore = create<QuizState>((set, get) => ({
     const { currentQuestionIndex } = get();
     if (currentQuestionIndex > 0) {
       set({ currentQuestionIndex: currentQuestionIndex - 1 });
+      get().saveActiveProgress();
+    }
+  },
+
+  saveActiveProgress: async () => {
+    const { currentQuiz, currentQuestionIndex, timeRemaining, answers } = get();
+    if (!currentQuiz) return;
+    try {
+      await quizService.saveProgress(currentQuiz.id, {
+        current_question_index: currentQuestionIndex,
+        time_remaining: timeRemaining,
+        answers: answers as any
+      });
+    } catch (err) {
+      console.error('Failed to save active progress', err);
     }
   },
 

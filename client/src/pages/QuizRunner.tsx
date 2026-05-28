@@ -31,6 +31,7 @@ export const QuizRunner: React.FC = () => {
 
   useEffect(() => {
     if (!isQuizActive) return;
+    let tickCount = 0;
     const interval = setInterval(() => {
       useQuizStore.setState((state) => {
         if (state.timeRemaining <= 1) {
@@ -38,6 +39,15 @@ export const QuizRunner: React.FC = () => {
           handleAutoSubmit();
           return { timeRemaining: 0 };
         }
+        
+        tickCount += 1;
+        // Save progress in background every 10 seconds
+        if (tickCount % 10 === 0) {
+          setTimeout(() => {
+            useQuizStore.getState().saveActiveProgress();
+          }, 0);
+        }
+        
         return { timeRemaining: state.timeRemaining - 1 };
       });
     }, 1000);

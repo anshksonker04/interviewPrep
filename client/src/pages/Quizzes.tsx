@@ -49,6 +49,7 @@ export const Quizzes: React.FC = () => {
     Easy:   { cls: 'badge-emerald', dot: 'bg-emerald-500' },
     Medium: { cls: 'badge-amber',   dot: 'bg-amber-500'   },
     Hard:   { cls: 'badge-rose',    dot: 'bg-rose-500'    },
+    Personalized: { cls: 'badge-violet', dot: 'bg-violet-500' },
   };
 
   return (

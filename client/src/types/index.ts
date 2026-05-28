@@ -25,7 +25,7 @@ export interface Quiz {
   id: number;
   title: string;
   topic: string;
-  difficulty: 'Easy' | 'Medium' | 'Hard';
+  difficulty: 'Easy' | 'Medium' | 'Hard' | 'Personalized';
   question_count: number;
   created_at: string;
   questions?: Question[];
@@ -51,7 +51,7 @@ export interface Bookmark {
   question: Question & {
     quiz_title: string;
     quiz_topic: string;
-    quiz_difficulty: 'Easy' | 'Medium' | 'Hard';
+    quiz_difficulty: 'Easy' | 'Medium' | 'Hard' | 'Personalized';
   };
 }
 

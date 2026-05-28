@@ -105,6 +105,21 @@ export const quizService = {
       return response.data;
     }
   },
+  saveProgress: async (
+    quizId: number,
+    progress: { current_question_index: number; time_remaining: number; answers: Record<number, string> }
+  ) => {
+    const response = await API.post<{ message: string; progress: any }>(`/quizzes/${quizId}/progress`, progress);
+    return response.data;
+  },
+  getProgress: async (quizId: number) => {
+    const response = await API.get<{ progress: any }>(`/quizzes/${quizId}/progress`);
+    return response.data;
+  },
+  deleteProgress: async (quizId: number) => {
+    const response = await API.delete<{ message: string }>(`/quizzes/${quizId}/progress`);
+    return response.data;
+  },
 };
 
 export const questionService = {

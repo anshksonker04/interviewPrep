@@ -62,6 +62,13 @@ def record_attempt():
             time_taken=time_taken
         )
         db.session.add(new_attempt)
+        
+        # Delete active progress since the quiz is now complete
+        from server.models.quiz_progress import QuizProgress
+        progress = QuizProgress.query.filter_by(user_id=current_user_id, quiz_id=quiz_id).first()
+        if progress:
+            db.session.delete(progress)
+
         db.session.commit()
         return jsonify({
             'message': 'Attempt recorded successfully.',

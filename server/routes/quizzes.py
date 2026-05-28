@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from flask_jwt_extended import jwt_required
+from flask_jwt_extended import jwt_required, get_jwt_identity
 import os
 import requests
 import json
@@ -23,7 +23,10 @@ def get_all_quizzes():
         page = request.args.get('page', type=int)
         limit = request.args.get('limit', type=int, default=10)
 
-        query = Quiz.query
+        from sqlalchemy import or_
+        current_user_id = get_jwt_identity()
+
+        query = Quiz.query.filter(or_(Quiz.user_id == None, Quiz.user_id == current_user_id))
 
         if topic:
             query = query.filter_by(topic=topic)
@@ -392,7 +395,8 @@ Start your response directly with the opening brace '{{' and end with the closin
         quiz_topic = quiz_json.get('topic', 'Syllabus').strip()
         quiz_difficulty = 'Personalized'
 
-        new_quiz = Quiz(title=quiz_title, topic=quiz_topic, difficulty=quiz_difficulty)
+        current_user_id = get_jwt_identity()
+        new_quiz = Quiz(title=quiz_title, topic=quiz_topic, difficulty=quiz_difficulty, user_id=current_user_id)
         db.session.add(new_quiz)
         db.session.flush()  # Acquire ID before inserting questions
 
@@ -432,4 +436,74 @@ Start your response directly with the opening brace '{{' and end with the closin
     except Exception as e:
         db.session.rollback()
         return jsonify({'error': f'Failed to generate syllabus quiz: {str(e)}'}), 500
+
+@quizzes_bp.route('/<int:quiz_id>/progress', methods=['POST'])
+@jwt_required()
+def save_quiz_progress(quiz_id):
+    try:
+        current_user_id = get_jwt_identity()
+        
+        # Check if quiz exists
+        quiz = Quiz.query.get(quiz_id)
+        if not quiz:
+            return jsonify({'error': 'Quiz not found.'}), 404
+            
+        data = request.get_json() or {}
+        current_question_index = data.get('current_question_index', 0)
+        time_remaining = data.get('time_remaining', 0)
+        answers = data.get('answers', {})
+        
+        from server.models.quiz_progress import QuizProgress
+        import json
+        serialized_answers = json.dumps(answers)
+        
+        # Check if progress record already exists
+        progress = QuizProgress.query.filter_by(user_id=current_user_id, quiz_id=quiz_id).first()
+        if progress:
+            progress.current_question_index = current_question_index
+            progress.time_remaining = time_remaining
+            progress.answers = serialized_answers
+        else:
+            progress = QuizProgress(
+                user_id=current_user_id,
+                quiz_id=quiz_id,
+                current_question_index=current_question_index,
+                time_remaining=time_remaining,
+                answers=serialized_answers
+            )
+            db.session.add(progress)
+            
+        db.session.commit()
+        return jsonify({'message': 'Progress saved successfully.', 'progress': progress.to_dict()}), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'error': f'Failed to save quiz progress: {str(e)}'}), 500
+
+@quizzes_bp.route('/<int:quiz_id>/progress', methods=['GET'])
+@jwt_required()
+def get_quiz_progress(quiz_id):
+    try:
+        current_user_id = get_jwt_identity()
+        from server.models.quiz_progress import QuizProgress
+        progress = QuizProgress.query.filter_by(user_id=current_user_id, quiz_id=quiz_id).first()
+        if not progress:
+            return jsonify({'progress': None}), 200
+        return jsonify({'progress': progress.to_dict()}), 200
+    except Exception as e:
+        return jsonify({'error': f'Failed to load quiz progress: {str(e)}'}), 500
+
+@quizzes_bp.route('/<int:quiz_id>/progress', methods=['DELETE'])
+@jwt_required()
+def delete_quiz_progress(quiz_id):
+    try:
+        current_user_id = get_jwt_identity()
+        from server.models.quiz_progress import QuizProgress
+        progress = QuizProgress.query.filter_by(user_id=current_user_id, quiz_id=quiz_id).first()
+        if progress:
+            db.session.delete(progress)
+            db.session.commit()
+        return jsonify({'message': 'Progress cleared successfully.'}), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'error': f'Failed to clear quiz progress: {str(e)}'}), 500
 
