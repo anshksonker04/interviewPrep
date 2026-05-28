@@ -267,7 +267,7 @@ Ensure all JSON rules are followed. Do not wrap the JSON output in markdown form
         # Make HTTP Request
         print("[API] Attempting connection to Google Generative Language API (Gemma 4)...")
         try:
-            response = requests.post(url, json=payload, timeout=45)
+            response = requests.post(url, json=payload, timeout=120)
         except requests.exceptions.ConnectionError as conn_err:
             print(f"[API CONNECTION FAILED] Network connection could not be established: {str(conn_err)}")
             return jsonify({
