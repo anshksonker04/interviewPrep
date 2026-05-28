@@ -28,72 +28,20 @@ export const App: React.FC = () => {
           <Route path="/register" element={<Register />} />
 
           {/* Protected Student Routes */}
-          <Route 
-            path="/" 
-            element={
-              <ProtectedRoute>
-                <Dashboard />
-              </ProtectedRoute>
-            } 
-          />
-          <Route 
-            path="/quizzes" 
-            element={
-              <ProtectedRoute>
-                <Quizzes />
-              </ProtectedRoute>
-            } 
-          />
-          <Route 
-            path="/syllabus-quiz" 
-            element={
-              <ProtectedRoute>
-                <SyllabusQuiz />
-              </ProtectedRoute>
-            } 
-          />
-          <Route 
-            path="/quiz/:id" 
-            element={
-              <ProtectedRoute>
-                <QuizRunner />
-              </ProtectedRoute>
-            } 
-          />
-          <Route 
-            path="/bookmarks" 
-            element={
-              <ProtectedRoute>
-                <Bookmarks />
-              </ProtectedRoute>
-            } 
-          />
-          <Route 
-            path="/analytics" 
-            element={
-              <ProtectedRoute>
-                <Analytics />
-              </ProtectedRoute>
-            } 
-          />
-          <Route 
-            path="/profile" 
-            element={
-              <ProtectedRoute>
-                <Profile />
-              </ProtectedRoute>
-            } 
-          />
+          <Route element={<ProtectedRoute />}>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/quizzes" element={<Quizzes />} />
+            <Route path="/syllabus-quiz" element={<SyllabusQuiz />} />
+            <Route path="/quiz/:id" element={<QuizRunner />} />
+            <Route path="/bookmarks" element={<Bookmarks />} />
+            <Route path="/analytics" element={<Analytics />} />
+            <Route path="/profile" element={<Profile />} />
+          </Route>
 
           {/* Protected Admin Routes */}
-          <Route 
-            path="/admin" 
-            element={
-              <AdminRoute>
-                <AdminDashboard />
-              </AdminRoute>
-            } 
-          />
+          <Route element={<AdminRoute />}>
+            <Route path="/admin" element={<AdminDashboard />} />
+          </Route>
 
           {/* Wildcard Fallback redirection */}
           <Route path="*" element={<Navigate to="/" replace />} />

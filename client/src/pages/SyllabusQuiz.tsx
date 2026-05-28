@@ -10,7 +10,6 @@ import {
   HelpCircle, CheckCircle2, AlertCircle, ArrowRight, Zap, Info
 } from 'lucide-react';
 import { cn } from '../lib/utils';
-import { DashboardLayout } from '../layouts/DashboardLayout';
 
 export const SyllabusQuiz: React.FC = () => {
   const navigate = useNavigate();
@@ -142,8 +141,7 @@ export const SyllabusQuiz: React.FC = () => {
   };
 
   return (
-    <DashboardLayout>
-      <div className="space-y-6 max-w-4xl mx-auto">
+    <div className="space-y-6 max-w-4xl mx-auto">
         {/* Header Title Banner */}
         <div className="relative overflow-hidden rounded-xl border border-violet-500/15 dark:border-violet-500/10 bg-gradient-to-br from-violet-600/10 via-violet-500/5 to-transparent dark:from-violet-600/10 dark:via-violet-500/5 dark:to-[#0f0f0f] p-6 shadow-sm">
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(139,92,246,0.1),transparent_60%)]" />
@@ -460,6 +458,5 @@ export const SyllabusQuiz: React.FC = () => {
           </form>
         )}
       </div>
-    </DashboardLayout>
-  );
-};
+    );
+  };

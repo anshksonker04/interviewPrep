@@ -4,11 +4,11 @@ import { useAuthStore } from '../store/authStore';
 import { DashboardLayout } from '../layouts/DashboardLayout';
 
 interface RouteProps {
-  children: React.ReactElement;
+  children?: React.ReactElement;
 }
 
 export const ProtectedRoute: React.FC<RouteProps> = ({ children }) => {
-  const { isAuthenticated, user, loadProfile, isLoading } = useAuthStore();
+  const { isAuthenticated, user, loadProfile } = useAuthStore();
 
   useEffect(() => {
     // Re-verify and load profile in background if token exists but user object is empty
