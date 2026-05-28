@@ -122,6 +122,44 @@ def delete_quiz(quiz_id):
         db.session.rollback()
         return jsonify({'error': f'Failed to delete quiz: {str(e)}'}), 500
 
+def extract_json_from_text(text):
+    text = text.strip()
+    
+    # Try parsing directly first
+    try:
+        return json.loads(text)
+    except json.JSONDecodeError:
+        pass
+        
+    # Find boundary indices of curly braces {...} or square brackets [...]
+    first_brace = text.find('{')
+    last_brace = text.rfind('}')
+    first_bracket = text.find('[')
+    last_bracket = text.rfind(']')
+    
+    start_idx = -1
+    end_idx = -1
+    
+    if first_brace != -1 and last_brace != -1:
+        if first_bracket != -1 and first_bracket < first_brace:
+            start_idx = first_bracket
+            end_idx = last_bracket
+        else:
+            start_idx = first_brace
+            end_idx = last_brace
+    elif first_bracket != -1 and last_bracket != -1:
+        start_idx = first_bracket
+        end_idx = last_bracket
+        
+    if start_idx != -1 and end_idx != -1 and end_idx > start_idx:
+        json_candidate = text[start_idx:end_idx+1]
+        try:
+            return json.loads(json_candidate)
+        except json.JSONDecodeError as e:
+            raise e
+            
+    raise json.JSONDecodeError("Could not find any JSON braces or brackets in output.", text, 0)
+
 @quizzes_bp.route('/generate-from-syllabus', methods=['POST'])
 @jwt_required()
 def generate_from_syllabus():
@@ -294,22 +332,17 @@ Ensure all JSON rules are followed. Do not wrap the JSON output in markdown form
         try:
             raw_text = res_data['candidates'][0]['content']['parts'][0]['text'].strip()
         except (KeyError, IndexError):
-            return jsonify({'error': 'Failed to extract text from Gemini response payload.'}), 502
-
-        # Clean markdown formatting if present
-        if raw_text.startswith('```'):
-            if raw_text.startswith('```json'):
-                raw_text = raw_text[7:]
-            else:
-                raw_text = raw_text[3:]
-            if raw_text.endswith('```'):
-                raw_text = raw_text[:-3]
-            raw_text = raw_text.strip()
+            print(f"[API ERROR] Failed to extract text from Gemma response payload. Payload: {res_data}")
+            return jsonify({'error': 'Failed to extract text from Gemma response payload.'}), 502
 
         try:
-            quiz_json = json.loads(raw_text)
+            quiz_json = extract_json_from_text(raw_text)
         except json.JSONDecodeError as e:
-            return jsonify({'error': f'Failed to parse generated quiz JSON. Clean response was: {raw_text}. Error: {str(e)}'}), 502
+            print(f"[API PARSE ERROR] Failed to parse generated quiz JSON. Clean response was: {raw_text}. Error: {str(e)}")
+            return jsonify({
+                'error': f'Failed to parse generated quiz JSON. Error: {str(e)}',
+                'raw_response': raw_text
+            }), 502
 
         # Insert new Quiz
         quiz_title = quiz_json.get('title', 'Personalized Syllabus Quiz').strip()
