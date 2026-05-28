@@ -50,6 +50,11 @@ cleanup() {
 # Trap SIGINT (Ctrl+C) and SIGTERM
 trap cleanup SIGINT SIGTERM
 
+# Ensure ports 5000 and 5173 are free of any active zombie processes from previous crashes
+echo -e "${YELLOW}Ensuring ports 5000 and 5173 are clear...${NC}"
+fuser -k 5000/tcp 2>/dev/null || kill -9 $(lsof -t -i:5000) 2>/dev/null || true
+fuser -k 5173/tcp 2>/dev/null || kill -9 $(lsof -t -i:5173) 2>/dev/null || true
+
 # Step 1: Check and Seed SQLite Database if missing
 if [ ! -f "server/interview_prep.db" ]; then
   echo -e "${YELLOW}SQLite database file not found. Seeding initial placement data...${NC}"
