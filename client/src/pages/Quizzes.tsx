@@ -56,8 +56,8 @@ export const Quizzes: React.FC = () => {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-lg font-bold text-zinc-900 dark:text-zinc-100 tracking-tight">Practice Quizzes</h1>
-        <p className="text-xs text-zinc-500 dark:text-zinc-500 mt-0.5">
+        <h1 className="text-lg font-bold text-white tracking-tight">Practice Quizzes</h1>
+        <p className="text-xs text-white/90 mt-0.5">
           Select a subject, test your speed, and review solutions instantly
         </p>
       </div>
@@ -98,7 +98,7 @@ export const Quizzes: React.FC = () => {
               <Card key={quiz.id} className="flex flex-col group cursor-default">
                 <CardHeader className="pb-2">
                   <div className="flex items-start justify-between gap-2">
-                    <span className="badge-blue px-2 py-0.5 rounded text-[10px] font-bold">
+                    <span className="badge-blue px-2 py-0.5 rounded text-[10px] font-bold text-white">
                       {quiz.topic}
                     </span>
                     <span className={cn('px-2 py-0.5 rounded text-[10px] font-bold flex items-center gap-1.5', diff.cls)}>

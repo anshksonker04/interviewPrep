@@ -34,48 +34,60 @@
   --color-violet-800: #E65100;
   --color-violet-900: #D84315;
 
-  /* Map zinc palette to white/muted-white/crimson/charcoal for global typography & contrast */
-  --color-zinc-50: #15151E;
-  --color-zinc-100: #1A1A24;
-  --color-zinc-200: rgba(178, 34, 34, 0.2);
-  --color-zinc-300: #E0E0E0;
-  --color-zinc-400: #E0E0E0;
-  --color-zinc-500: #E0E0E0;
-  --color-zinc-600: #E0E0E0;
-  --color-zinc-700: #FFFFFF;
-  --color-zinc-800: #FFFFFF;
-  --color-zinc-900: #FFFFFF;
+  /* Map zinc palette to dynamic CSS variables for theme toggling compatibility */
+  --color-zinc-50: var(--zinc-50);
+  --color-zinc-100: var(--zinc-100);
+  --color-zinc-200: var(--zinc-200);
+  --color-zinc-300: var(--zinc-300);
+  --color-zinc-400: var(--zinc-400);
+  --color-zinc-500: var(--zinc-500);
+  --color-zinc-600: var(--zinc-600);
+  --color-zinc-700: var(--zinc-700);
+  --color-zinc-800: var(--zinc-800);
+  --color-zinc-900: var(--zinc-900);
 }
 
 /* ============================================
    GLOBAL SPLIT-COMPLEMENTARY COLOR VARIABLE SET
    ============================================ */
 :root {
-  --background: #15151E;
-  --foreground: #FFFFFF;
-  --card: #1A1A24;
-  --card-foreground: #FFFFFF;
-  --popover: #1A1A24;
-  --popover-foreground: #FFFFFF;
+  --background: #F5F5FA;
+  --foreground: #15151E;
+  --card: #FFFFFF;
+  --card-foreground: #15151E;
+  --popover: #FFFFFF;
+  --popover-foreground: #15151E;
   --primary: #FF7A00;
   --primary-foreground: #FFFFFF;
-  --secondary: #9D1B1B;
+  --secondary: #B22222;
   --secondary-foreground: #FFFFFF;
-  --muted: #1A1A24;
-  --muted-foreground: #E0E0E0;
+  --muted: #F0F0F5;
+  --muted-foreground: #4A4A5A;
   --accent: #FF7A00;
   --accent-foreground: #FFFFFF;
-  --border: #B22222;
-  --input: #15151E;
+  --border: #FFD2D2;
+  --input: #FFFFFF;
   --ring: #FF7A00;
   --radius: 0.75rem;
 
   /* Custom tokens */
-  --surface-1: #1A1A24;
-  --surface-2: #242432;
-  --surface-3: #2D2D3C;
+  --surface-1: #FDFDFD;
+  --surface-2: #F5F5FA;
+  --surface-3: #ECECEF;
   --glow-primary: rgba(255, 122, 0, 0.15);
   --glow-strong: rgba(255, 122, 0, 0.25);
+
+  /* Zinc light-mode mappings */
+  --zinc-50: #F5F5FA;
+  --zinc-100: #ECECEF;
+  --zinc-200: #FFD2D2;
+  --zinc-300: #7F7F8F;
+  --zinc-400: #6F6F7F;
+  --zinc-500: #4A4A5A;
+  --zinc-600: #3A3A4A;
+  --zinc-700: #252535;
+  --zinc-800: #1A1A2A;
+  --zinc-900: #15151E;
 }
 
 .dark {
@@ -103,6 +115,18 @@
   --surface-3: #2D2D3C;
   --glow-primary: rgba(255, 122, 0, 0.12);
   --glow-strong: rgba(255, 122, 0, 0.22);
+
+  /* Zinc dark-mode mappings */
+  --zinc-50: #15151E;
+  --zinc-100: #1A1A24;
+  --zinc-200: rgba(178, 34, 34, 0.2);
+  --zinc-300: #E0E0E0;
+  --zinc-400: #E0E0E0;
+  --zinc-500: #E0E0E0;
+  --zinc-600: #E0E0E0;
+  --zinc-700: #FFFFFF;
+  --zinc-800: #FFFFFF;
+  --zinc-900: #FFFFFF;
 }
 
 /* ============================================
@@ -119,12 +143,17 @@ html {
 }
 
 body {
-  background: linear-gradient(135deg, #15151E 0%, #B22222 100%) no-repeat fixed;
+  background: linear-gradient(135deg, #F5F5FA 0%, #FFD2D2 100%) no-repeat fixed;
   background-size: cover;
   color: var(--foreground);
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
   overflow-x: hidden;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition: background 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+}
+
+.dark body {
+  background: linear-gradient(135deg, #15151E 0%, #B22222 100%) no-repeat fixed;
+  background-size: cover;
 }
 
 /* ============================================

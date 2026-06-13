@@ -65,7 +65,7 @@ export const DashboardLayout: React.FC<{ children?: React.ReactNode }> = ({ chil
                   ? 'bg-[#FF7A00]/15 text-[#FF7A00] border border-[#FF7A00]/20'
                   : isAdmin
                     ? 'text-amber-600 dark:text-amber-400 hover:bg-amber-500/8'
-                    : 'text-[#E0E0E0] hover:text-[#FFFFFF] hover:bg-white/[0.04]'
+                    : 'text-zinc-500 hover:text-zinc-900 hover:bg-zinc-100'
               )}
             >
               <span className={cn(isActive ? 'text-[#FF7A00]' : 'opacity-70')}>
@@ -87,8 +87,8 @@ export const DashboardLayout: React.FC<{ children?: React.ReactNode }> = ({ chil
             {user?.name?.charAt(0).toUpperCase() || 'U'}
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-xs font-semibold text-zinc-900 dark:text-zinc-200 truncate leading-none">{user?.name}</p>
-            <p className="text-[10px] text-zinc-500 dark:text-zinc-500 mt-0.5 capitalize">{user?.role}</p>
+            <p className="text-xs font-semibold text-white truncate leading-none">{user?.name}</p>
+            <p className="text-[10px] text-zinc-500 mt-0.5 capitalize">{user?.role}</p>
           </div>
         </div>
         <button
