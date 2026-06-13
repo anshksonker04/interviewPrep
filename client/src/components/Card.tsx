@@ -9,7 +9,7 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(({ className, gl
   <div
     ref={ref}
     className={cn(
-      'rounded-xl border border-zinc-200/70 bg-white dark:border-white/[0.05] dark:bg-[#0f0f0f] text-card-foreground shadow-sm',
+      'rounded-xl border border-border/30 bg-card text-card-foreground shadow-sm',
       glass && 'glass-card',
       'glow-hover',
       className
@@ -49,7 +49,7 @@ CardContent.displayName = 'CardContent';
 
 export const CardFooter = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
   ({ className, ...props }, ref) => (
-    <div ref={ref} className={cn('flex items-center p-5 pt-0 border-t border-zinc-100 dark:border-white/[0.04] mt-4', className)} {...props} />
+    <div ref={ref} className={cn('flex items-center p-5 pt-0 border-t border-border/10 mt-4', className)} {...props} />
   )
 );
 CardFooter.displayName = 'CardFooter';

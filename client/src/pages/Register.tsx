@@ -40,7 +40,7 @@ export const Register: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-zinc-100 dark:bg-[#080808]">
+    <div className="min-h-screen flex items-center justify-center p-4 bg-transparent">
 
       {/* Ambient glow */}
       <div className="pointer-events-none fixed inset-0 overflow-hidden">
@@ -59,10 +59,10 @@ export const Register: React.FC = () => {
         </div>
 
         {/* Card */}
-        <div className="rounded-xl border border-zinc-200/70 dark:border-white/[0.07] bg-white dark:bg-[#0f0f0f] shadow-xl shadow-black/10 dark:shadow-black/60 p-6">
+        <div className="rounded-xl border border-border/30 bg-card shadow-xl shadow-black/60 p-6">
           <div className="mb-5">
-            <h2 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">Create your account</h2>
-            <p className="text-xs text-zinc-500 dark:text-zinc-500 mt-0.5">Free for all students</p>
+            <h2 className="text-sm font-semibold text-white">Create your account</h2>
+            <p className="text-xs text-[#E0E0E0] mt-0.5">Free for all students</p>
           </div>
 
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -106,9 +106,9 @@ export const Register: React.FC = () => {
           </form>
         </div>
 
-        <p className="text-center text-xs text-zinc-500 dark:text-zinc-600 mt-5">
+        <p className="text-center text-xs text-[#E0E0E0] mt-5">
           Already have an account?{' '}
-          <Link to="/login" className="text-violet-600 dark:text-violet-400 font-semibold hover:underline underline-offset-4">
+          <Link to="/login" className="text-[#FF7A00] font-semibold hover:underline underline-offset-4">
             Sign in
           </Link>
         </p>

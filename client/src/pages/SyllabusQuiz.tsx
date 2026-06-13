@@ -143,8 +143,8 @@ export const SyllabusQuiz: React.FC = () => {
   return (
     <div className="space-y-6 max-w-4xl mx-auto">
         {/* Header Title Banner */}
-        <div className="relative overflow-hidden rounded-xl border border-violet-500/15 dark:border-violet-500/10 bg-gradient-to-br from-violet-600/10 via-violet-500/5 to-transparent dark:from-violet-600/10 dark:via-violet-500/5 dark:to-[#0f0f0f] p-6 shadow-sm">
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(139,92,246,0.1),transparent_60%)]" />
+        <div className="relative overflow-hidden rounded-xl border border-violet-500/15 dark:border-violet-500/10 bg-gradient-to-br from-violet-600/10 via-violet-500/5 to-transparent dark:from-violet-600/10 dark:via-violet-500/5 dark:to-[#1A1A24] p-6 shadow-sm">
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,122,0,0.12),transparent_60%)]" />
           <div className="relative flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
               <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-widest bg-violet-500/10 border border-violet-500/15 text-violet-600 dark:text-violet-400 mb-2">
@@ -302,7 +302,7 @@ export const SyllabusQuiz: React.FC = () => {
                       id="syllabusText"
                       rows={8}
                       placeholder="e.g.&#10;1. Database Management Systems (DBMS)&#10;- Entity Relationship (ER) Diagrams, Schema refinement&#10;- SQL Queries: Joins, Nested Queries, Aggregates&#10;- Relational Algebra, Normalization (1NF, 2NF, 3NF, BCNF)&#10;- Transactions: ACID Properties, Concurrency Control (2PL, Locks)..."
-                      className="w-full text-xs rounded-lg border border-zinc-200 dark:border-white/[0.06] bg-white dark:bg-[#090909] p-3 text-zinc-900 dark:text-zinc-100 placeholder:text-zinc-500 focus:outline-none focus:ring-1 focus:ring-violet-500 transition-all font-mono"
+                      className="w-full text-xs rounded-lg border border-border/30 bg-[#15151E] p-3 text-white placeholder:text-zinc-500 focus:outline-none focus:ring-1 focus:ring-[#FF7A00] transition-all font-mono"
                       value={syllabusText}
                       onChange={(e) => setSyllabusText(e.target.value)}
                     />

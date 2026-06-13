@@ -27,7 +27,7 @@ const ToastCard: React.FC<{ toast: ToastItem; onDismiss: () => void }> = ({ toas
 
   return (
     <div
-      className="relative overflow-hidden rounded-xl border border-zinc-200/60 dark:border-white/[0.07] bg-white dark:bg-[#141414] shadow-2xl shadow-black/40 flex items-start gap-3 p-4 animate-slide-up"
+      className="relative overflow-hidden rounded-xl border border-border/30 bg-card shadow-2xl shadow-black/40 flex items-start gap-3 p-4 animate-slide-up"
       role="alert"
     >
       {/* Colored left bar */}

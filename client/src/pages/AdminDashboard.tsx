@@ -125,7 +125,7 @@ export const AdminDashboard: React.FC = () => {
     setEditingQuiz(quiz);
     quizForm.setValue('title', quiz.title);
     quizForm.setValue('topic', quiz.topic);
-    quizForm.setValue('difficulty', quiz.difficulty);
+    quizForm.setValue('difficulty', quiz.difficulty === 'Personalized' ? 'Easy' : quiz.difficulty);
     setIsQuizModalOpen(true);
   };
 

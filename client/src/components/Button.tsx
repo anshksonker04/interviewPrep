@@ -9,15 +9,15 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant = 'primary', size = 'default', isLoading = false, children, disabled, ...props }, ref) => {
-    const base = 'inline-flex items-center justify-center font-medium rounded-lg transition-all duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-[#080808] disabled:opacity-40 disabled:pointer-events-none active:scale-[0.97]';
+    const base = 'inline-flex items-center justify-center font-medium rounded-lg transition-all duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#FF7A00]/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[#15151E] disabled:opacity-40 disabled:pointer-events-none active:scale-[0.97]';
 
     const variants = {
-      primary:     'bg-violet-600 text-white hover:bg-violet-500 shadow-sm shadow-violet-900/30 dark:shadow-violet-900/50',
-      secondary:   'bg-zinc-100 dark:bg-white/[0.06] text-zinc-700 dark:text-zinc-300 hover:bg-zinc-200 dark:hover:bg-white/[0.09] border border-zinc-200 dark:border-white/[0.06]',
-      outline:     'border border-zinc-200 dark:border-white/[0.08] text-zinc-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-white/[0.04]',
-      ghost:       'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-white/[0.05]',
+      primary:     'bg-gradient-to-r from-[#FF7A00] to-[#FF8C00] text-white hover:from-[#FF8C00] hover:to-[#FF7A00] shadow-sm shadow-orange-950/40 border border-[#FF7A00]/20',
+      secondary:   'bg-[#1A1A24] text-[#E0E0E0] hover:bg-[#242432] border border-border/20',
+      outline:     'border border-border/30 text-[#E0E0E0] hover:bg-white/[0.04]',
+      ghost:       'text-[#E0E0E0] hover:text-[#FFFFFF] hover:bg-white/[0.04]',
       destructive: 'bg-rose-600 text-white hover:bg-rose-500 shadow-sm',
-      link:        'text-violet-600 dark:text-violet-400 underline-offset-4 hover:underline p-0 active:scale-100',
+      link:        'text-[#FF7A00] hover:text-[#FF8C00] underline-offset-4 hover:underline p-0 active:scale-100',
     };
 
     const sizes = {

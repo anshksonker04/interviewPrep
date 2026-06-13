@@ -21,67 +21,88 @@
   --radius-lg: var(--radius);
   --radius-md: calc(var(--radius) - 2px);
   --radius-sm: calc(var(--radius) - 4px);
+
+  /* Map violet palette to tangerine orange to redirect all existing layout accents */
+  --color-violet-50: #FFF3E0;
+  --color-violet-100: #FFE0B2;
+  --color-violet-200: #FFCC80;
+  --color-violet-300: #FFB74D;
+  --color-violet-400: #FFA726;
+  --color-violet-500: #FF8C00;
+  --color-violet-600: #FF7A00;
+  --color-violet-700: #F57C00;
+  --color-violet-800: #E65100;
+  --color-violet-900: #D84315;
+
+  /* Map zinc palette to white/muted-white/crimson/charcoal for global typography & contrast */
+  --color-zinc-50: #15151E;
+  --color-zinc-100: #1A1A24;
+  --color-zinc-200: rgba(178, 34, 34, 0.2);
+  --color-zinc-300: #E0E0E0;
+  --color-zinc-400: #E0E0E0;
+  --color-zinc-500: #E0E0E0;
+  --color-zinc-600: #E0E0E0;
+  --color-zinc-700: #FFFFFF;
+  --color-zinc-800: #FFFFFF;
+  --color-zinc-900: #FFFFFF;
 }
 
 /* ============================================
-   LIGHT MODE — Soft warm-white Obsidian variant
+   GLOBAL SPLIT-COMPLEMENTARY COLOR VARIABLE SET
    ============================================ */
 :root {
-  --background: hsl(240 5% 96%);
-  --foreground: hsl(240 10% 6%);
-  --card: hsl(0 0% 100%);
-  --card-foreground: hsl(240 10% 6%);
-  --popover: hsl(0 0% 100%);
-  --popover-foreground: hsl(240 10% 6%);
-  --primary: hsl(262 83% 58%);
-  --primary-foreground: hsl(0 0% 100%);
-  --secondary: hsl(240 5% 90%);
-  --secondary-foreground: hsl(240 10% 20%);
-  --muted: hsl(240 5% 92%);
-  --muted-foreground: hsl(240 5% 48%);
-  --accent: hsl(262 83% 58%);
-  --accent-foreground: hsl(0 0% 100%);
-  --border: hsl(240 5% 84%);
-  --input: hsl(240 5% 88%);
-  --ring: hsl(262 83% 58%);
+  --background: #15151E;
+  --foreground: #FFFFFF;
+  --card: #1A1A24;
+  --card-foreground: #FFFFFF;
+  --popover: #1A1A24;
+  --popover-foreground: #FFFFFF;
+  --primary: #FF7A00;
+  --primary-foreground: #FFFFFF;
+  --secondary: #9D1B1B;
+  --secondary-foreground: #FFFFFF;
+  --muted: #1A1A24;
+  --muted-foreground: #E0E0E0;
+  --accent: #FF7A00;
+  --accent-foreground: #FFFFFF;
+  --border: #B22222;
+  --input: #15151E;
+  --ring: #FF7A00;
   --radius: 0.75rem;
 
-  /* Obsidian custom tokens */
-  --surface-1: hsl(240 5% 98%);
-  --surface-2: hsl(240 5% 94%);
-  --surface-3: hsl(240 5% 88%);
-  --glow-primary: rgba(124, 58, 237, 0.15);
-  --glow-strong: rgba(124, 58, 237, 0.25);
+  /* Custom tokens */
+  --surface-1: #1A1A24;
+  --surface-2: #242432;
+  --surface-3: #2D2D3C;
+  --glow-primary: rgba(255, 122, 0, 0.15);
+  --glow-strong: rgba(255, 122, 0, 0.25);
 }
 
-/* ============================================
-   DARK MODE — Pure Obsidian Black
-   ============================================ */
 .dark {
-  --background: hsl(0 0% 3%);          /* #080808 pure black */
-  --foreground: hsl(240 5% 88%);        /* warm off-white */
-  --card: hsl(0 0% 5%);                 /* #0d0d0d card surface */
-  --card-foreground: hsl(240 5% 88%);
-  --popover: hsl(0 0% 5%);
-  --popover-foreground: hsl(240 5% 88%);
-  --primary: hsl(262 83% 65%);          /* Obsidian violet #8b5cf6 */
-  --primary-foreground: hsl(0 0% 100%);
-  --secondary: hsl(240 4% 9%);          /* #161616 */
-  --secondary-foreground: hsl(240 5% 70%);
-  --muted: hsl(240 4% 8%);              /* #141414 */
-  --muted-foreground: hsl(240 5% 45%);  /* muted zinc */
-  --accent: hsl(262 83% 65%);
-  --accent-foreground: hsl(0 0% 100%);
-  --border: hsl(240 4% 12%);            /* #1e1e1e subtle borders */
-  --input: hsl(240 4% 10%);
-  --ring: hsl(262 83% 65%);
+  --background: #15151E;
+  --foreground: #FFFFFF;
+  --card: #1A1A24;
+  --card-foreground: #FFFFFF;
+  --popover: #1A1A24;
+  --popover-foreground: #FFFFFF;
+  --primary: #FF7A00;
+  --primary-foreground: #FFFFFF;
+  --secondary: #9D1B1B;
+  --secondary-foreground: #FFFFFF;
+  --muted: #1A1A24;
+  --muted-foreground: #E0E0E0;
+  --accent: #FF7A00;
+  --accent-foreground: #FFFFFF;
+  --border: #B22222;
+  --input: #15151E;
+  --ring: #FF7A00;
 
-  /* Obsidian custom tokens */
-  --surface-1: hsl(0 0% 6%);           /* #0f0f0f */
-  --surface-2: hsl(0 0% 9%);           /* #171717 */
-  --surface-3: hsl(0 0% 12%);          /* #1f1f1f */
-  --glow-primary: rgba(139, 92, 246, 0.12);
-  --glow-strong: rgba(139, 92, 246, 0.22);
+  /* Custom tokens */
+  --surface-1: #1A1A24;
+  --surface-2: #242432;
+  --surface-3: #2D2D3C;
+  --glow-primary: rgba(255, 122, 0, 0.12);
+  --glow-strong: rgba(255, 122, 0, 0.22);
 }
 
 /* ============================================
@@ -98,7 +119,8 @@ html {
 }
 
 body {
-  background-color: var(--background);
+  background: linear-gradient(135deg, #15151E 0%, #B22222 100%) no-repeat fixed;
+  background-size: cover;
   color: var(--foreground);
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
   overflow-x: hidden;
@@ -108,33 +130,18 @@ body {
 /* ============================================
    OBSIDIAN GLASS PANEL SYSTEM
    ============================================ */
-.glass-panel {
-  background: rgba(255, 255, 255, 0.55);
-  backdrop-filter: blur(16px) saturate(180%);
-  -webkit-backdrop-filter: blur(16px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.dark .glass-panel {
-  background: rgba(13, 13, 13, 0.82);
+.glass-panel, .dark .glass-panel {
+  background: rgba(26, 26, 36, 0.82);
   backdrop-filter: blur(20px) saturate(120%);
   -webkit-backdrop-filter: blur(20px) saturate(120%);
   border: 1px solid rgba(255, 255, 255, 0.04);
 }
 
-.glass-card {
-  background: rgba(255, 255, 255, 0.75);
+.glass-card, .dark .glass-card {
+  background: rgba(26, 26, 36, 0.90);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(230, 230, 240, 0.7);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 24px rgba(0, 0, 0, 0.03);
-}
-
-.dark .glass-card {
-  background: rgba(13, 13, 13, 0.90);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(178, 34, 34, 0.20);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5), 0 8px 32px rgba(0, 0, 0, 0.4);
 }
 
@@ -205,7 +212,7 @@ body {
    OBSIDIAN SELECTION HIGHLIGHT
    ============================================ */
 ::selection {
-  background: rgba(139, 92, 246, 0.28);
+  background: rgba(255, 122, 0, 0.28);
   color: inherit;
 }
 
@@ -219,9 +226,9 @@ body {
 
 /* Badge variants for Obsidian theme */
 .badge-violet {
-  background: rgba(139, 92, 246, 0.12);
-  color: hsl(262 83% 72%);
-  border: 1px solid rgba(139, 92, 246, 0.2);
+  background: rgba(255, 122, 0, 0.12);
+  color: #FF7A00;
+  border: 1px solid rgba(255, 122, 0, 0.20);
 }
 
 .badge-emerald {

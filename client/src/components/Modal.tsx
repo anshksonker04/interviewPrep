@@ -26,11 +26,11 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, descriptio
         onClick={onClose}
       />
       <div className={cn(
-        'relative z-10 w-full max-w-lg rounded-xl border bg-white dark:bg-[#0f0f0f] border-zinc-200 dark:border-white/[0.07] shadow-2xl shadow-black/50 animate-slide-up flex flex-col max-h-[88vh]',
+        'relative z-10 w-full max-w-lg rounded-xl border bg-card border-border/30 shadow-2xl shadow-black/50 animate-slide-up flex flex-col max-h-[88vh]',
         className
       )}>
         {/* Header */}
-        <div className="flex items-start justify-between p-5 border-b border-zinc-100 dark:border-white/[0.04]">
+        <div className="flex items-start justify-between p-5 border-b border-border/10">
           <div>
             <h2 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">{title}</h2>
             {description && <p className="text-xs text-zinc-500 dark:text-zinc-500 mt-0.5">{description}</p>}

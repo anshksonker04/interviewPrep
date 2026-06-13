@@ -36,7 +36,7 @@ export const Login: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-zinc-100 dark:bg-[#080808]">
+    <div className="min-h-screen flex items-center justify-center p-4 bg-transparent">
 
       {/* Ambient glow */}
       <div className="pointer-events-none fixed inset-0 overflow-hidden">
@@ -55,10 +55,10 @@ export const Login: React.FC = () => {
         </div>
 
         {/* Card */}
-        <div className="rounded-xl border border-zinc-200/70 dark:border-white/[0.07] bg-white dark:bg-[#0f0f0f] shadow-xl shadow-black/10 dark:shadow-black/60 p-6">
+        <div className="rounded-xl border border-border/30 bg-card shadow-xl shadow-black/60 p-6">
           <div className="mb-5">
-            <h2 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">Sign in to your account</h2>
-            <p className="text-xs text-zinc-500 dark:text-zinc-500 mt-0.5">Welcome back</p>
+            <h2 className="text-sm font-semibold text-white">Sign in to your account</h2>
+            <p className="text-xs text-[#E0E0E0] mt-0.5">Welcome back</p>
           </div>
 
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -86,28 +86,28 @@ export const Login: React.FC = () => {
           </form>
 
           {/* Demo credentials */}
-          <div className="mt-5 pt-4 border-t border-zinc-100 dark:border-white/[0.04]">
-            <p className="text-[10px] font-semibold text-zinc-400 dark:text-zinc-600 uppercase tracking-widest mb-2.5">
+          <div className="mt-5 pt-4 border-t border-border/15">
+            <p className="text-[10px] font-semibold text-zinc-400 uppercase tracking-widest mb-2.5">
               Demo accounts
             </p>
             <div className="grid grid-cols-2 gap-2">
-              <div className="rounded-lg bg-zinc-50 dark:bg-white/[0.03] border border-zinc-200/60 dark:border-white/[0.05] p-2.5">
-                <p className="text-[10px] font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider mb-1">Student</p>
-                <p className="text-[10px] text-zinc-600 dark:text-zinc-500 font-mono">student@prep.com</p>
-                <p className="text-[10px] text-zinc-400 dark:text-zinc-600 font-mono">student123</p>
+              <div className="rounded-lg bg-[#15151E] border border-border/20 p-2.5">
+                <p className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider mb-1">Student</p>
+                <p className="text-[10px] text-zinc-300 font-mono">student@prep.com</p>
+                <p className="text-[10px] text-zinc-400 font-mono">student123</p>
               </div>
-              <div className="rounded-lg bg-zinc-50 dark:bg-white/[0.03] border border-zinc-200/60 dark:border-white/[0.05] p-2.5">
-                <p className="text-[10px] font-bold text-amber-500 uppercase tracking-wider mb-1">Admin</p>
-                <p className="text-[10px] text-zinc-600 dark:text-zinc-500 font-mono">admin@prep.com</p>
-                <p className="text-[10px] text-zinc-400 dark:text-zinc-600 font-mono">admin123</p>
+              <div className="rounded-lg bg-[#15151E] border border-border/20 p-2.5">
+                <p className="text-[10px] font-bold text-[#FF7A00] uppercase tracking-wider mb-1">Admin</p>
+                <p className="text-[10px] text-zinc-300 font-mono">admin@prep.com</p>
+                <p className="text-[10px] text-zinc-400 font-mono">admin123</p>
               </div>
             </div>
           </div>
         </div>
 
-        <p className="text-center text-xs text-zinc-500 dark:text-zinc-600 mt-5">
+        <p className="text-center text-xs text-[#E0E0E0] mt-5">
           No account?{' '}
-          <Link to="/register" className="text-violet-600 dark:text-violet-400 font-semibold hover:underline underline-offset-4">
+          <Link to="/register" className="text-[#FF7A00] font-semibold hover:underline underline-offset-4">
             Create one free
           </Link>
         </p>

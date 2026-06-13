@@ -99,8 +99,8 @@ export const QuizRunner: React.FC = () => {
     return (
       <div className="space-y-6 animate-fade-in">
         {/* Result hero */}
-        <div className="relative overflow-hidden rounded-xl border border-violet-500/15 dark:border-violet-500/10 bg-[#0f0f0f] p-8 text-center">
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(139,92,246,0.1),transparent_60%)]" />
+        <div className="relative overflow-hidden rounded-xl border border-violet-500/15 dark:border-violet-500/10 bg-card p-8 text-center">
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(255,122,0,0.12),transparent_60%)]" />
           <div className="relative max-w-lg mx-auto flex flex-col items-center gap-5">
             <div className="w-14 h-14 rounded-full bg-amber-500/10 border border-amber-500/20 flex items-center justify-center">
               <Award className="w-7 h-7 text-amber-400" />
@@ -259,7 +259,7 @@ export const QuizRunner: React.FC = () => {
           'flex items-center gap-2 px-3 py-1.5 rounded-lg border text-xs font-bold font-mono transition-colors',
           timerWarning
             ? 'bg-rose-500/8 border-rose-500/20 text-rose-500'
-            : 'bg-zinc-50 dark:bg-[#141414] border-zinc-200 dark:border-white/[0.07] text-zinc-900 dark:text-zinc-200'
+            : 'bg-[#15151E] border-border/30 text-white'
         )}>
           <Clock className={cn('w-3.5 h-3.5', timerWarning && 'animate-pulse')} />
           {formatTime(timeRemaining)}

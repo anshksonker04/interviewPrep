@@ -33,9 +33,9 @@ export const DashboardLayout: React.FC<{ children?: React.ReactNode }> = ({ chil
   const SidebarContent = () => (
     <div className="flex flex-col h-full">
       {/* Brand */}
-      <div className="px-5 py-5 border-b border-zinc-800/60 dark:border-white/[0.04]">
+      <div className="px-5 py-5 border-b border-border/20">
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-lg bg-violet-600 flex items-center justify-center shadow-lg shadow-violet-900/40 shrink-0">
+          <div className="w-8 h-8 rounded-lg bg-[#FF7A00] flex items-center justify-center shadow-lg shadow-orange-950/40 shrink-0">
             <Zap className="w-4 h-4 text-white" />
           </div>
           <div>
@@ -62,18 +62,18 @@ export const DashboardLayout: React.FC<{ children?: React.ReactNode }> = ({ chil
               className={cn(
                 'flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-medium transition-all duration-150',
                 isActive
-                  ? 'bg-violet-600/15 dark:bg-violet-500/10 text-violet-700 dark:text-violet-300 border border-violet-500/20 dark:border-violet-500/15'
+                  ? 'bg-[#FF7A00]/15 text-[#FF7A00] border border-[#FF7A00]/20'
                   : isAdmin
-                    ? 'text-amber-600 dark:text-amber-400 hover:bg-amber-500/8 dark:hover:bg-amber-500/8'
-                    : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-white/[0.04]'
+                    ? 'text-amber-600 dark:text-amber-400 hover:bg-amber-500/8'
+                    : 'text-[#E0E0E0] hover:text-[#FFFFFF] hover:bg-white/[0.04]'
               )}
             >
-              <span className={cn(isActive ? 'text-violet-600 dark:text-violet-400' : 'opacity-70')}>
+              <span className={cn(isActive ? 'text-[#FF7A00]' : 'opacity-70')}>
                 {link.icon}
               </span>
               {link.label}
               {isActive && (
-                <span className="ml-auto w-1.5 h-1.5 rounded-full bg-violet-500 dark:bg-violet-400" />
+                <span className="ml-auto w-1.5 h-1.5 rounded-full bg-[#FF7A00]" />
               )}
             </Link>
           );
@@ -81,9 +81,9 @@ export const DashboardLayout: React.FC<{ children?: React.ReactNode }> = ({ chil
       </nav>
 
       {/* User */}
-      <div className="px-3 pb-4 border-t border-zinc-200/60 dark:border-white/[0.04] pt-3 space-y-1">
+      <div className="px-3 pb-4 border-t border-border/10 pt-3 space-y-1">
         <div className="flex items-center gap-3 px-3 py-2">
-          <div className="w-8 h-8 rounded-full bg-violet-600/15 dark:bg-violet-500/10 border border-violet-500/20 dark:border-violet-500/15 flex items-center justify-center text-violet-700 dark:text-violet-400 text-xs font-bold shrink-0">
+          <div className="w-8 h-8 rounded-full bg-[#FF7A00]/15 border border-[#FF7A00]/20 flex items-center justify-center text-[#FF7A00] text-xs font-bold shrink-0">
             {user?.name?.charAt(0).toUpperCase() || 'U'}
           </div>
           <div className="flex-1 min-w-0">
@@ -103,9 +103,9 @@ export const DashboardLayout: React.FC<{ children?: React.ReactNode }> = ({ chil
   );
 
   return (
-    <div className="min-h-screen flex bg-zinc-50 dark:bg-[#080808] text-zinc-900 dark:text-zinc-100">
+    <div className="min-h-screen flex bg-transparent text-white">
       {/* Desktop sidebar */}
-      <aside className="hidden md:flex flex-col w-60 shrink-0 border-r border-zinc-200/70 dark:border-white/[0.04] bg-white dark:bg-[#0d0d0d] sticky top-0 h-screen">
+      <aside className="hidden md:flex flex-col w-60 shrink-0 border-r border-border/20 bg-card sticky top-0 h-screen">
         <SidebarContent />
       </aside>
 
@@ -113,7 +113,7 @@ export const DashboardLayout: React.FC<{ children?: React.ReactNode }> = ({ chil
       {isMobileOpen && (
         <div className="fixed inset-0 z-50 flex md:hidden">
           <div className="fixed inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setIsMobileOpen(false)} />
-          <aside className="relative z-10 w-60 h-full bg-white dark:bg-[#0d0d0d] border-r border-zinc-200 dark:border-white/[0.04] animate-slide-in">
+          <aside className="relative z-10 w-60 h-full bg-card border-r border-border/20 animate-slide-in">
             <SidebarContent />
           </aside>
         </div>
@@ -122,7 +122,7 @@ export const DashboardLayout: React.FC<{ children?: React.ReactNode }> = ({ chil
       {/* Main */}
       <div className="flex-1 flex flex-col min-w-0 h-screen overflow-y-auto">
         {/* Top bar */}
-        <header className="h-14 shrink-0 sticky top-0 z-40 bg-white/80 dark:bg-[#080808]/90 backdrop-blur-xl border-b border-zinc-200/60 dark:border-white/[0.04] flex items-center px-5 gap-4">
+        <header className="h-14 shrink-0 sticky top-0 z-40 bg-card/85 backdrop-blur-xl border-b border-border/25 flex items-center px-5 gap-4">
           <button
             onClick={() => setIsMobileOpen(true)}
             className="md:hidden p-1.5 rounded-md text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100 hover:bg-zinc-100 dark:hover:bg-white/[0.06] transition-colors"

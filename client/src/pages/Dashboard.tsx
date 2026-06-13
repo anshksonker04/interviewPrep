@@ -80,8 +80,8 @@ export const Dashboard: React.FC = () => {
     <div className="space-y-6">
 
       {/* Hero banner */}
-      <div className="relative overflow-hidden rounded-xl border border-violet-500/15 dark:border-violet-500/10 bg-gradient-to-br from-violet-600/10 via-violet-500/5 to-transparent dark:from-violet-600/10 dark:via-violet-500/5 dark:to-[#0f0f0f] p-6">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(139,92,246,0.12),transparent_60%)]" />
+      <div className="relative overflow-hidden rounded-xl border border-violet-500/15 dark:border-violet-500/10 bg-gradient-to-br from-violet-600/10 via-violet-500/5 to-transparent dark:from-violet-600/10 dark:via-violet-500/5 dark:to-[#1A1A24] p-6">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,122,0,0.12),transparent_60%)]" />
         <div className="absolute right-6 bottom-0 opacity-5 pointer-events-none">
           <BookOpen className="w-48 h-48" />
         </div>
